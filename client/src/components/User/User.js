@@ -66,66 +66,35 @@ function User() {
 
   return (
     <Container fluid>
-      <div style={{ display: 'flex' }}>
-        <img width="150px" src="https://i.pravatar.cc/300" />
+      <div style={{ width: '800px', margin: 'auto', padding: '30px;', textAlign: 'center' }}>
         <h2>{state && state.email ? state.email : ''}</h2>
+        <br />
+        <img width="150px" src="https://i.pravatar.cc/300" />
+        <br />
+        <br />
+        <Jumbotron>
+          <h1>Your Purchase Wishlist</h1>
+        </Jumbotron>
+        <br />
+        {lists && lists.length ? (
+          <List>
+            {lists.map(list => {
+              return (
+                <ListItem key={list._id}>
+                  <a href={"/wishlits/" + list._id}>
+                    <strong>
+                      {list.title} : $ {list.author}
+                    </strong>
+                  </a>
+                  <DeleteBtn onClick={() => deleteList(list._id)} />
+                </ListItem>
+              );
+            })}
+          </List>
+        ) : (
+            <h3>No Results to Display</h3>
+          )}
       </div>
-      <Row>
-        <Col size="md-6">
-          <Jumbotron>
-            <h1>Add to your Purchase Wishlist Here</h1>
-          </Jumbotron>
-          <form>
-            <Input
-              onChange={handleInputChange}
-              name="title"
-              placeholder="Title (required)"
-              value={formObject.title}
-            />
-            <Input
-              onChange={handleInputChange}
-              name="author"
-              placeholder="Author (required)"
-              value={formObject.author}
-            />
-            <TextArea
-              onChange={handleInputChange}
-              name="synopsis"
-              placeholder="Synopsis (Optional)"
-              value={formObject.synopsis}
-            />
-            <FormBtn
-              disabled={!(formObject.author && formObject.title)}
-              onClick={handleFormSubmit}
-            >
-              Submit Item
-              </FormBtn>
-          </form>
-        </Col>
-        <Col size="md-6 sm-12">
-          <Jumbotron>
-            <h1>Your Purchase Wishlist</h1>
-          </Jumbotron>
-          {lists && lists.length ? (
-            <List>
-              {lists.map(list => {
-                return (
-                  <ListItem key={list._id}>
-                    <a href={"/wishlits/" + list._id}>
-                      <strong>
-                        {list.title} : $ {list.author}
-                      </strong>
-                    </a>
-                    <DeleteBtn onClick={() => deleteList(list._id)} />
-                  </ListItem>
-                );
-              })}
-            </List>
-          ) : (
-              <h3>No Results to Display</h3>
-            )}
-        </Col>
-      </Row>
     </Container>
   );
 }
